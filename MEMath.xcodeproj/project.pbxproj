@@ -12,6 +12,7 @@
 		7781389C21DED96000EC9A2E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7781389A21DED96000EC9A2E /* Main.storyboard */; };
 		7781389E21DED96400EC9A2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7781389D21DED96400EC9A2E /* Assets.xcassets */; };
 		778138A121DED96400EC9A2E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7781389F21DED96400EC9A2E /* LaunchScreen.storyboard */; };
+		77C81B7C21E3997400E79A35 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C81B7B21E3997400E79A35 /* GameController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		7781389D21DED96400EC9A2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		778138A021DED96400EC9A2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		778138A221DED96400EC9A2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		77C81B7B21E3997400E79A35 /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				7781389D21DED96400EC9A2E /* Assets.xcassets */,
 				7781389F21DED96400EC9A2E /* LaunchScreen.storyboard */,
 				778138A221DED96400EC9A2E /* Info.plist */,
+				77C81B7B21E3997400E79A35 /* GameController.swift */,
 			);
 			path = MEMath;
 			sourceTree = "<group>";
@@ -136,6 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7781389921DED96000EC9A2E /* ViewController.swift in Sources */,
+				77C81B7C21E3997400E79A35 /* GameController.swift in Sources */,
 				7781389721DED96000EC9A2E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -282,16 +286,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = P33Y6M3C4T;
 				INFOPLIST_FILE = MEMath/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = hr.tvz.MEMath;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -299,16 +307,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = P33Y6M3C4T;
 				INFOPLIST_FILE = MEMath/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = hr.tvz.MEMath;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
