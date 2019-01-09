@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7773286021E55C49005EEB43 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7773285F21E55C49005EEB43 /* Deck.swift */; };
 		7781389721DED96000EC9A2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7781389621DED96000EC9A2E /* AppDelegate.swift */; };
 		7781389921DED96000EC9A2E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7781389821DED96000EC9A2E /* ViewController.swift */; };
 		7781389C21DED96000EC9A2E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7781389A21DED96000EC9A2E /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7773285F21E55C49005EEB43 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		7781389321DED96000EC9A2E /* MEMath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MEMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7781389621DED96000EC9A2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7781389821DED96000EC9A2E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				7781389F21DED96400EC9A2E /* LaunchScreen.storyboard */,
 				778138A221DED96400EC9A2E /* Info.plist */,
 				77C81B7B21E3997400E79A35 /* GameController.swift */,
+				7773285F21E55C49005EEB43 /* Deck.swift */,
 			);
 			path = MEMath;
 			sourceTree = "<group>";
@@ -138,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7773286021E55C49005EEB43 /* Deck.swift in Sources */,
 				7781389921DED96000EC9A2E /* ViewController.swift in Sources */,
 				77C81B7C21E3997400E79A35 /* GameController.swift in Sources */,
 				7781389721DED96000EC9A2E /* AppDelegate.swift in Sources */,

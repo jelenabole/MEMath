@@ -9,9 +9,6 @@
 import UIKit
 
 class GameController: UIViewController {
-
-    // test variables:
-    var test = 0;
     
     @IBOutlet weak var upperView: UIStackView!
     @IBOutlet weak var cardsView: UIView!
@@ -22,14 +19,16 @@ class GameController: UIViewController {
     
     // TODO - check - array of buttons:
     var cards = [UIButton]();
-    var combos: Int = 0;
-    var currentCardFlippedIndex: Int?;
-    var cardsArray: [String] = [];
+    var myDeck: Deck?;
+    var shuffledCardIndices: [Int] = [];
+    var numberOfPairs: Int = 0;
     
-    var flippedCards: Int = 0 {
+    var currentCardFlippedIndex: Int?;
+    var flippedPairs: Int = 0;
+    var numberOfFlips: Int = 0 {
         didSet {
             // write number of combinations instead:
-            flipsLabel.text = "Tries: \(flippedCards)";
+            flipsLabel.text = "Tries: \(numberOfFlips)";
         }
     };
     
@@ -55,19 +54,45 @@ class GameController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad();
         
-        // get this info from the view before (config):
-        let numberOfPairs = 6;
-        combos = numberOfPairs;
-        // create 2 objects (pairs = Q&A)
-        // shuffle values to array (use object index % 2)
-        cardsArray = ["2+2", "4", "2+3", "5", "7", "8",
-                      "9", "10", "12", "12", "13", "14"];
+        // START OF THE APPLICATION:
+        // stuff to get from the screen before:
+        let difficulty = Deck.Difficulty.hard;
+        let ops: [Deck.Operation] = [.addition, .subtraction, .multiplication, .division];
+        print("starting the game: \(difficulty) with pairs: \(difficulty.rawValue) and operations: \(ops.count)");
         
-        // for 2 combinations = 4 cards:
-        // upperView.frame = CGRectMake(0, 0, self.view.frame.width, CGFloat(partHeight * 2));
-        createButtons(for: numberOfPairs);
+        
+        
+        
+        // global variable:
+        myDeck = Deck(level: difficulty, operations: ops);
+        
+        // create an aray of cards and shuffle them:
+        numberOfPairs = difficulty.rawValue;
+        let numberOfDeckCards = numberOfPairs * 2;
+        for index in 0 ..< numberOfDeckCards {
+            shuffledCardIndices.append(index);
+        }
+        shuffledCardIndices.shuffle();
+        
+        // calculate number of cards by row and column:
+        let (inRow, inColumn) = calcNumberOfCards(from: difficulty);
+        createButtons(inRow, inColumn);
         
         startTimer();
+    }
+    
+    func calcNumberOfCards(from difficulty: Deck.Difficulty) -> (Int, Int) {
+        // TODO - create a better solution for this! (a real calculation by screen size)
+        
+        // 6, 12, 30 (pairs: 3, 6, 15)
+        switch difficulty {
+        case .easy:
+            return (2, 3);
+        case .medium:
+            return (3, 4);
+        case .hard:
+            return (4, 6);
+        }
     }
     
     func startTimer() {
@@ -85,22 +110,18 @@ class GameController: UIViewController {
     }
     
     
-    func createButtons(for pairs: Int) {
+    func createButtons(_ inRow: Int, _ inColumn: Int) {
         // get size of a parent:
         let parentWidth = Int(cardsView.frame.width);
         let parentHeight = Int(cardsView.frame.height);
-        
-        // TODO - calculate how much cards will be in each row/column:
-        let cardsInRow = 3;
-        let cardsInColumn = 4;
         
         print("parent size: \(parentWidth) + \(parentHeight)");
         
         // divide on the number of cards:
         // calculate size by the smaller scale (either by the screen width or height)
-        var cardSize = Int(parentWidth / cardsInRow);
-        if (cardSize > parentHeight / cardsInColumn) {
-            cardSize = Int(parentHeight / cardsInColumn);
+        var cardSize = Int(parentWidth / inRow);
+        if (cardSize > parentHeight / inColumn) {
+            cardSize = Int(parentHeight / inColumn);
         }
         
         // 1/10 of padding on each side:
@@ -114,22 +135,28 @@ class GameController: UIViewController {
         
         var index = 0;
         y = padding / 2;
-        for ind in 1...cardsInColumn {
+        for _ in 1...inColumn {
             x = padding / 2;
             // add cards to this row:
-            for jnd in 1...cardsInRow {
+            for _ in 1...inRow {
                 let button = UIButton(type: .system);
                 button.frame = CGRect(x: x, y: y, width: cardSize, height: cardSize);
                 button.backgroundColor = #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1);
                 button.tintColor = #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1);
-                button.setTitle(String(cardsArray[index]), for: .normal);
+                
+                // get value by the index in card array (question / answer):
+                let cardIndex = shuffledCardIndices[index];
+                let card = myDeck!.cards[(cardIndex / 2)];
+                if (cardIndex % 2 == 0) {
+                    button.setTitle(card.question, for: .normal);
+                } else {
+                    button.setTitle(card.answer, for: .normal);
+                }
                 index += 1;
-                button.setTitle(String(ind) + " - " + String(jnd), for: .normal);
-                button.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside);
+                
+                button.addTarget(self, action: #selector(cardClicked), for: .touchUpInside);
                 cards.append(button);
                 cardsView.addSubview(button);
-                
-                // TODO - add text to the card
                 
                 x += cardSize + padding;
             }
@@ -140,72 +167,119 @@ class GameController: UIViewController {
     
     // GAME -- AFTER START
     
-    @objc func buttonClicked(sender: UIButton!) {
+    @objc func cardClicked(sender: UIButton!) {
         // button (card) touched
         let cardIndex = cards.firstIndex(of: sender)!;
-        print("** card touched - index: \(String(describing: cardIndex))");
-        
-        // if its not currently turned around card, then turn it around
-        // if there is already one card turned, check and wait 2 seconds
-        // .. either flip them back, and delete currentFlipped
-        // .. or disable touch on both cards, and let them be flipped
+        print("** card touched - open index: \(String(describing: cardIndex))");
         
         // check if one card is already opened (or NIL):
         if let currentIndex = currentCardFlippedIndex {
             if (currentIndex == cardIndex) {
+                print("card already opened");
                 // clicked on the same card (already opened and active)
                 return;
             }
+            print("second card opened");
             openCard(on: sender);
             
-            print("second card");
-            // check if those cards match:
-            print("check index: \(cardIndex) and \(currentCardFlippedIndex)");
-            let cardsSame: Bool = checkPair(first: cardIndex, second: currentIndex);
+            // check if those cards match (indexes from same card):
+            let cardsSame: Bool = checkPair(first: shuffledCardIndices[cardIndex], second: shuffledCardIndices[currentIndex]);
             
             // TODO - wait for 2sec, then continue the app
-            print("wait 2 sec");
+            print("--- wait 2 sec");
+            /*
             Timer.scheduledTimer(
                 timeInterval: 0.9,
                 target: self,
                 selector: #selector(countdown),
                 userInfo: nil,
                 repeats: true);
+            */
             
             if (cardsSame) {
+                print("PAIR FOUND");
                 // stay opened, disable touch on them:
                 disableButton(on: cardIndex);
                 disableButton(on: currentCardFlippedIndex!);
                 
-                
+                flippedPairs += 1;
                 isGameFinished();
             } else {
+                print("pair wrong!");
                 closeCard(on: cardIndex);
                 closeCard(on: currentCardFlippedIndex!);
             }
             
-            flippedCards += 1;
+            numberOfFlips += 1;
             currentCardFlippedIndex = nil;
         } else {
-            print("first card");
+            print("first card opened");
             openCard(on: sender);
             currentCardFlippedIndex = cardIndex;
         }
-        
-        // .. not same? - wait for few seconds, return positions and restart turn
-        // .. same? - stay opened, add points (?) & sign, if last cards = finish game!
-        // .. if no, just open it
-        
     }
     
-    // finished game:
-    func isGameFinished() {
-        // check if all cards are turned:
-        if (flippedCards == combos) {
-            stopTimer();
+    // checks if cards on given indexes are the same
+    func checkPair(first x: Int, second y: Int) -> Bool {
+        // TODO - check if both are truncated:
+        print ("check pair: \(x / 2) - \(y / 2)");
+        if ((x / 2) == (y / 2)) {
+            return true;
+        } else {
+            return false;
         }
     }
     
+    // checks if game is finished (all cards turned)
+    func isGameFinished() {
+        print("check if game finished: \(flippedPairs) - \(numberOfPairs)");
+        if (flippedPairs == numberOfPairs) {
+            print("GAME FINISHED");
+            stopTimer();
+            showAlert();
+        }
+    }
+    
+    func showAlert() {
+        // TODO - check results and decide which screen to show!
+        
+        // TODO - set the message and leader-board
+        // back button (!)
+        
+        // 2 messages:
+        // in top 10 = get usrname and save it
+        // not = sy "do better next time" - OK
+        
+        // show current time and add text field:
+        let alert = UIAlertController(title: "CONGRATS!!",
+                                      message: "You finished the game in: \(timerLabel!.text!)",
+            preferredStyle: .alert);
+        alert.addTextField { (textField) in
+            textField.placeholder = "User"
+        }
+        alert.addAction(UIAlertAction(
+            title: "Save", style: .default, handler: { [weak alert] (_) in
+                let textField = alert?.textFields![0];
+                print("username: \(textField!.text!)");
+                
+                // TODO - save the username with the time for the leaderboard
+                // TODO - open another alert for the leaderboard, and show that one
+                // .. go back on OK.
+                print("navigator : \(self.navigationController == nil)");
+                _ = self.navigationController?.popViewController(animated: true);
+        }))
+        // TODO - get previous times
+        // set your name, or something -
+        
+        self.present(alert, animated: true, completion: nil);
+    }
+    
+    
+    
+    
+    
+    
+    // TODO - needed for counting the pause (between guesses)
     // forwards time by 1 sec - used for
     var counter = 2;
     @objc func countdown() {
@@ -215,35 +289,22 @@ class GameController: UIViewController {
     }
     
     
-    // checks if cards on given indexes are the same
-    func checkPair(first x: Int, second y: Int) -> Bool {
-        // check if those cards are the same (cardArray on those indexes)
-        // TODO
-        return true;
+    
+    
+    
+    
+    
+    func openCard(on button: UIButton) {
+        button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0);
     }
     
+    func closeCard(on index: Int) {
+        cards[index].backgroundColor = #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1);
+    }
     
     // disables touch on a button
     func  disableButton(on index: Int) {
         cards[index].isEnabled = false;
     }
-    
-    
-    func closeCard(on index: Int) {
-        print("close card: \(index)");
-        cards[index].backgroundColor = #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1);
-    }
-    
-    func openCard(on button: UIButton) {
-        // TODO - for now - check by the color of the button,and change it (text same color)
-        print("open card");
-        // button.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1);
-        button.setTitleColor(.black, for: .normal);
-        
-        button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0);
-    }
-    
-    
-    
     
 }
