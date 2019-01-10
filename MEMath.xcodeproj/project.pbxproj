@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		774B610221E6B0DA00481264 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774B610121E6B0DA00481264 /* CoreData.framework */; };
+		774B610621E6B27600481264 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 774B610421E6B27600481264 /* Model.xcdatamodeld */; };
 		7773286021E55C49005EEB43 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7773285F21E55C49005EEB43 /* Deck.swift */; };
 		7781389721DED96000EC9A2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7781389621DED96000EC9A2E /* AppDelegate.swift */; };
 		7781389921DED96000EC9A2E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7781389821DED96000EC9A2E /* ViewController.swift */; };
@@ -14,9 +16,12 @@
 		7781389E21DED96400EC9A2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7781389D21DED96400EC9A2E /* Assets.xcassets */; };
 		778138A121DED96400EC9A2E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7781389F21DED96400EC9A2E /* LaunchScreen.storyboard */; };
 		77C81B7C21E3997400E79A35 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C81B7B21E3997400E79A35 /* GameController.swift */; };
+		77EC317521E77F3C0065D45C /* Results.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EC317421E77F3C0065D45C /* Results.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		774B610121E6B0DA00481264 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		774B610521E6B27600481264 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		7773285F21E55C49005EEB43 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		7781389321DED96000EC9A2E /* MEMath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MEMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7781389621DED96000EC9A2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -26,6 +31,7 @@
 		778138A021DED96400EC9A2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		778138A221DED96400EC9A2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		77C81B7B21E3997400E79A35 /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
+		77EC317421E77F3C0065D45C /* Results.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Results.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +39,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				774B610221E6B0DA00481264 /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		774B610021E6B0D900481264 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				774B610121E6B0DA00481264 /* CoreData.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7781388A21DED96000EC9A2E = {
 			isa = PBXGroup;
 			children = (
 				7781389521DED96000EC9A2E /* MEMath */,
 				7781389421DED96000EC9A2E /* Products */,
+				774B610021E6B0D900481264 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,6 +82,8 @@
 				778138A221DED96400EC9A2E /* Info.plist */,
 				77C81B7B21E3997400E79A35 /* GameController.swift */,
 				7773285F21E55C49005EEB43 /* Deck.swift */,
+				774B610421E6B27600481264 /* Model.xcdatamodeld */,
+				77EC317421E77F3C0065D45C /* Results.swift */,
 			);
 			path = MEMath;
 			sourceTree = "<group>";
@@ -141,8 +159,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77EC317521E77F3C0065D45C /* Results.swift in Sources */,
 				7773286021E55C49005EEB43 /* Deck.swift in Sources */,
 				7781389921DED96000EC9A2E /* ViewController.swift in Sources */,
+				774B610621E6B27600481264 /* Model.xcdatamodeld in Sources */,
 				77C81B7C21E3997400E79A35 /* GameController.swift in Sources */,
 				7781389721DED96000EC9A2E /* AppDelegate.swift in Sources */,
 			);
@@ -350,6 +370,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		774B610421E6B27600481264 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				774B610521E6B27600481264 /* Model.xcdatamodel */,
+			);
+			currentVersion = 774B610521E6B27600481264 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 7781388B21DED96000EC9A2E /* Project object */;
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -40,7 +41,76 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+    
+    
+    
+    
+    // TODO - add for Core Data
+    
+    
+    // returns the managed object model for the app
+    // if the model doesnt exist, it is created from the app's model
+    var _managedObjectModel: NSManagedObjectModel?;
+    var managedObjectModel: NSManagedObjectModel {
+        if (_managedObjectModel == nil) {
+            // TODO - check for the model and show the error if not found:
+            guard let modelURL = Bundle.main.url(forResource: "Model", withExtension: "momd")
+                else {
+                    fatalError("Error loading model from bundle");
+            }
+            _managedObjectModel = NSManagedObjectModel(contentsOf: modelURL);
+        }
+        return _managedObjectModel!;
+    }
+    
+    // returns the persistent store coordinator for the app
+    // if it doesnt exist, create it and the app's store is added to it
+    var _persistentStoreCoordinator: NSPersistentStoreCoordinator?;
+    var persistentStoreCoordinator: NSPersistentStoreCoordinator {
+        if (_persistentStoreCoordinator == nil) {
+            let storeURL = self.applicationDocumentsDirectory.appendingPathComponent("Model.sqlite");
+            var error: NSError?;
+            _persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel);
+            
+            do {
+                try _persistentStoreCoordinator!.addPersistentStore(
+                    ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
+                print("store opened");
+                // TODO - add error handling when the persistent store is not accessible or schea is not compatible with the model
+                // - abort the app:
+                // abort();
+            } catch {
+                print("ERROR");
+            }
+            
+            
+        }
+        return _persistentStoreCoordinator!;
+    }
+    
+    
+    // returns the managed object context for the application
+    // if the context doesnt exist, create it and bound to the persistent store coordinator
+    var _managedObjectContext: NSManagedObjectContext?;
+    var managedObjectContext: NSManagedObjectContext {
+        // TODO - changed from != to ==
+        if (_managedObjectContext == nil) {
+            let coordinator = self.persistentStoreCoordinator;
+            _managedObjectContext = NSManagedObjectContext();
+            _managedObjectContext!.persistentStoreCoordinator = coordinator
+        }
+        return _managedObjectContext!
+    }
+    
+    
+    
+    
+    
+    // returns the URL to the application's Documents directory
+    var applicationDocumentsDirectory: NSURL {
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask);
+        return urls[urls.endIndex - 1] as NSURL;
+    }
 
 }
 

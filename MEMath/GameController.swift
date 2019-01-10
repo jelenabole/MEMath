@@ -7,10 +7,10 @@
 //
 
 import UIKit
+import CoreData
 
 class GameController: UIViewController {
     
-    @IBOutlet weak var upperView: UIStackView!
     @IBOutlet weak var cardsView: UIView!
     
     // timer:
@@ -56,8 +56,9 @@ class GameController: UIViewController {
         
         // START OF THE APPLICATION:
         // stuff to get from the screen before:
-        let difficulty = Deck.Difficulty.hard;
-        let ops: [Deck.Operation] = [.addition, .subtraction, .multiplication, .division];
+        let difficulty = Deck.Difficulty.easy;
+        // let ops: [Deck.Operation] = [.addition, .subtraction, .multiplication, .division];
+        let ops: [Deck.Operation] = [.addition];
         print("starting the game: \(difficulty) with pairs: \(difficulty.rawValue) and operations: \(ops.count)");
         
         
@@ -79,6 +80,25 @@ class GameController: UIViewController {
         createButtons(inRow, inColumn);
         
         startTimer();
+        
+        
+        // TODO - test the DB:
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate;
+        let context = appDelegate.managedObjectContext;
+        let database = DatabaseResults(from: context);
+        
+        // get all items (sorted from highest points):
+        var playerResults: [NSManagedObject] = database.getItems();
+        
+        // get filtered items:
+        playerResults = database.getItems(for: .easy);
+        
+        // create new user:
+        let result = PlayerResult(username: "user2", time: "0:30", points: 30, flips: 30, difficulty: 3);
+        database.save(item: result);
+        
+        database.deleteAll();
     }
     
     func calcNumberOfCards(from difficulty: Deck.Difficulty) -> (Int, Int) {
@@ -295,6 +315,8 @@ class GameController: UIViewController {
     
     
     func openCard(on button: UIButton) {
+        button.setTitleColor(.black, for: .normal);
+        
         button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0);
     }
     
