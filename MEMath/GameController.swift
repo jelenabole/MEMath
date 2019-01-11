@@ -315,8 +315,7 @@ class GameController: UIViewController {
     
     
     func openCard(on button: UIButton) {
-        button.setTitleColor(.black, for: .normal);
-        
+        // button.setTitleColor(.black, for: .normal);
         button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0);
     }
     
