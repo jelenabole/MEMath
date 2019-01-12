@@ -21,10 +21,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bdf-OR-v0v" userLabel="Config View">
-                                <rect key="frame" x="64" y="147.5" width="192" height="159"/>
+                                <rect key="frame" x="58.5" y="147.5" width="192" height="159"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="jY7-Eo-jQ3">
-                                        <rect key="frame" x="19" y="0.0" width="154" height="29"/>
+                                        <rect key="frame" x="19.5" y="0.0" width="153.5" height="29"/>
                                         <segments>
                                             <segment title="Easy"/>
                                             <segment title="Second"/>
@@ -33,57 +33,77 @@
                                         <color key="tintColor" red="0.2498216248" green="0.6055877221" blue="0.35891379420000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SRa-oE-Pbe">
-                                        <rect key="frame" x="110.5" y="42.5" width="35" height="34.5"/>
+                                        <rect key="frame" x="111" y="42.5" width="34.5" height="34.5"/>
                                         <color key="backgroundColor" red="0.2498216248" green="0.6055877221" blue="0.35891379420000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="SRa-oE-Pbe" secondAttribute="height" multiplier="1:1" id="ePq-F2-0Ac"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="18"/>
+                                        <color key="tintColor" red="0.00010138400789999999" green="0.52734891230000003" blue="0.30274177130000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="-">
-                                            <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="changeOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="I9U-yD-55V"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jVG-fm-QbH">
-                                        <rect key="frame" x="46.5" y="82.5" width="35" height="34.5"/>
+                                        <rect key="frame" x="47" y="82.5" width="34.5" height="34.5"/>
                                         <color key="backgroundColor" red="0.2498216248" green="0.6055877221" blue="0.35891379420000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="jVG-fm-QbH" secondAttribute="height" multiplier="1:1" id="l5T-Ll-WYr"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="18"/>
+                                        <color key="tintColor" red="0.00010138400789999999" green="0.52734891230000003" blue="0.30274177130000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="*">
-                                            <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="changeOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="odR-7T-B6o"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kvr-3C-mvV">
-                                        <rect key="frame" x="110.5" y="82.5" width="35" height="34.5"/>
+                                        <rect key="frame" x="111" y="82.5" width="34.5" height="34.5"/>
                                         <color key="backgroundColor" red="0.2498216248" green="0.6055877221" blue="0.35891379420000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Kvr-3C-mvV" secondAttribute="height" multiplier="1:1" id="Led-Xa-C1k"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="18"/>
+                                        <color key="tintColor" red="0.00010138400789999999" green="0.52734891230000003" blue="0.30274177130000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="/">
-                                            <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="changeOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="efX-uN-63w"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D9u-Y7-9gX">
-                                        <rect key="frame" x="62.5" y="124.5" width="67" height="34.5"/>
+                                    <button opaque="NO" contentMode="center" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D9u-Y7-9gX">
+                                        <rect key="frame" x="62.5" y="124.5" width="67.5" height="34.5"/>
                                         <color key="backgroundColor" red="0.2498216248" green="0.6055877221" blue="0.35891379420000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="18"/>
+                                        <color key="tintColor" red="0.00010138400789999999" green="0.52734891230000003" blue="0.30274177130000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                         <state key="normal" title="ALL">
-                                            <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="setAllOperations:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cFS-K1-b2i"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSV-mJ-lxY">
-                                        <rect key="frame" x="46.5" y="42.5" width="35" height="34.5"/>
+                                        <rect key="frame" x="47" y="42.5" width="34.5" height="34.5"/>
                                         <color key="backgroundColor" red="0.2498216248" green="0.6055877221" blue="0.35891379420000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="bSV-mJ-lxY" secondAttribute="height" multiplier="1:1" id="46M-zE-acp"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="18"/>
+                                        <color key="tintColor" red="0.00010138400789999999" green="0.52734891230000003" blue="0.30274177130000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="+">
-                                            <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="changeOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wd9-Il-Zld"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -99,7 +119,6 @@
                                     <constraint firstItem="D9u-Y7-9gX" firstAttribute="width" secondItem="bdf-OR-v0v" secondAttribute="width" multiplier="0.35" id="XJA-Af-EQO"/>
                                     <constraint firstItem="SRa-oE-Pbe" firstAttribute="centerY" secondItem="bSV-mJ-lxY" secondAttribute="centerY" id="Yct-Rv-B6I"/>
                                     <constraint firstItem="Kvr-3C-mvV" firstAttribute="centerY" secondItem="jVG-fm-QbH" secondAttribute="centerY" id="dcM-zD-5oA"/>
-                                    <constraint firstAttribute="width" constant="192" id="gbB-Sd-BM7"/>
                                     <constraint firstItem="bSV-mJ-lxY" firstAttribute="centerX" secondItem="bdf-OR-v0v" secondAttribute="centerX" multiplier="2:3" id="hha-fD-eND"/>
                                     <constraint firstItem="jY7-Eo-jQ3" firstAttribute="top" secondItem="bdf-OR-v0v" secondAttribute="top" id="kfW-bd-A7u"/>
                                     <constraint firstItem="bSV-mJ-lxY" firstAttribute="centerY" secondItem="bdf-OR-v0v" secondAttribute="centerY" multiplier="3:4" id="oMp-9a-nI8"/>
@@ -118,8 +137,10 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xpB-e5-RPL">
                                 <rect key="frame" x="65.5" y="369" width="157" height="111.5"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="23"/>
+                                <size key="titleShadowOffset" width="2" height="2"/>
                                 <state key="normal" title="START">
                                     <color key="titleColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" red="0.57874745130000005" green="0.32151988149999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <segue destination="Nz3-Uh-DrK" kind="show" id="uCn-tK-8hQ"/>
@@ -133,7 +154,7 @@
                             <constraint firstItem="bdf-OR-v0v" firstAttribute="height" secondItem="hAQ-Ay-Dwm" secondAttribute="height" multiplier="0.28" id="CJF-fl-IJa"/>
                             <constraint firstItem="xpB-e5-RPL" firstAttribute="top" secondItem="ZdI-FP-UJs" secondAttribute="top" id="G20-qs-t4N"/>
                             <constraint firstAttribute="bottom" secondItem="ZdI-FP-UJs" secondAttribute="bottom" id="LiQ-a5-f1q"/>
-                            <constraint firstItem="bdf-OR-v0v" firstAttribute="centerX" secondItem="hAQ-Ay-Dwm" secondAttribute="centerX" id="M7k-1Z-hix"/>
+                            <constraint firstItem="bdf-OR-v0v" firstAttribute="centerX" secondItem="hAQ-Ay-Dwm" secondAttribute="centerX" multiplier="29/30" id="M7k-1Z-hix"/>
                             <constraint firstItem="bdf-OR-v0v" firstAttribute="width" secondItem="hAQ-Ay-Dwm" secondAttribute="width" multiplier="0.6" id="SBx-kR-EM2"/>
                             <constraint firstItem="hAQ-Ay-Dwm" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Vdp-Rb-YJ7"/>
                             <constraint firstItem="xpB-e5-RPL" firstAttribute="width" secondItem="ZdI-FP-UJs" secondAttribute="width" multiplier="0.7" id="Xnq-GB-Uhq"/>
@@ -147,6 +168,14 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="s30-LQ-iRj"/>
+                    <connections>
+                        <outlet property="allButton" destination="D9u-Y7-9gX" id="Hfn-8Y-F1M"/>
+                        <outlet property="difficultySegment" destination="jY7-Eo-jQ3" id="RRK-ee-GfX"/>
+                        <outlet property="divisionButton" destination="Kvr-3C-mvV" id="fNq-zh-9gD"/>
+                        <outlet property="minusButton" destination="SRa-oE-Pbe" id="w9w-Qq-3h1"/>
+                        <outlet property="multiButton" destination="jVG-fm-QbH" id="Cgn-fU-uGI"/>
+                        <outlet property="plusButton" destination="bSV-mJ-lxY" id="bAk-If-ns5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -184,6 +213,8 @@
                                             </fragment>
                                         </attributedString>
                                         <nil key="highlightedColor"/>
+                                        <color key="shadowColor" red="0.57874745130000005" green="0.32151988149999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <size key="shadowOffset" width="2" height="2"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flips: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="6Hi-0s-STL">
                                         <rect key="frame" x="246" y="8" width="64" height="24"/>

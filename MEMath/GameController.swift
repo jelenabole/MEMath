@@ -11,11 +11,16 @@ import CoreData
 
 class GameController: UIViewController {
     
+    // passed arguments:
+    var argDifficulty: Deck.Difficulty = .easy;
+    var argOperations: [Deck.Operation] = [.addition];
+    
+    // constants and global variabled:
     let basicColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1);
+    var cardsDisabled = true;
+    let secondsToWait = 2.0;
     
     @IBOutlet weak var cardsView: UIView!
-    
-    // timer:
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var flipsLabel: UILabel!
     
@@ -56,21 +61,15 @@ class GameController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad();
         
-        // START OF THE APPLICATION:
-        // stuff to get from the screen before:
-        let difficulty = Deck.Difficulty.easy;
+        // get data from the previous screen:
         // let ops: [Deck.Operation] = [.addition, .subtraction, .multiplication, .division];
-        let ops: [Deck.Operation] = [.addition];
-        print("starting the game: \(difficulty) with pairs: \(difficulty.rawValue) and operations: \(ops.count)");
-        
-        
-        
+        print("sent args: \(argDifficulty) - \(argOperations)");
         
         // global variable:
-        myDeck = Deck(level: difficulty, operations: ops);
+        myDeck = Deck(level: argDifficulty, operations: argOperations);
         
         // create an aray of cards and shuffle them:
-        numberOfPairs = difficulty.rawValue;
+        numberOfPairs = argDifficulty.rawValue;
         let numberOfDeckCards = numberOfPairs * 2;
         for index in 0 ..< numberOfDeckCards {
             shuffledCardIndices.append(index);
@@ -78,14 +77,16 @@ class GameController: UIViewController {
         shuffledCardIndices.shuffle();
         
         // calculate number of cards by row and column:
-        let (inRow, inColumn) = calcNumberOfCards(from: difficulty);
+        let (inRow, inColumn) = calcNumberOfCards(from: argDifficulty);
         createButtons(inRow, inColumn);
         
-        startTimer();
-        
+        // Start time with few seconds delay:
+        let deadline = DispatchTime.now() + secondsToWait;
+        DispatchQueue.main.asyncAfter(deadline: deadline) {
+            self.startTimer();
+        }
         
         // TODO - test the DB:
-        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate;
         let context = appDelegate.managedObjectContext;
         let database = DatabaseResults(from: context);
@@ -118,6 +119,7 @@ class GameController: UIViewController {
     }
     
     func startTimer() {
+        cardsDisabled = false;
         timer = Timer(timeInterval: 1, repeats: true) {
             [weak self] _ in self?.secondsPassed += 1;
         }
@@ -192,6 +194,9 @@ class GameController: UIViewController {
     
     @objc func cardClicked(sender: UIButton!) {
         // button (card) touched
+        if (cardsDisabled) {
+            return;
+        }
         let cardIndex = cards.firstIndex(of: sender)!;
         print("** card touched - open index: \(String(describing: cardIndex))");
         
@@ -208,30 +213,13 @@ class GameController: UIViewController {
             // check if those cards match (indexes from same card):
             let cardsSame: Bool = checkPair(first: shuffledCardIndices[cardIndex], second: shuffledCardIndices[currentIndex]);
             
-            // TODO - wait for 2sec, then continue the app
-            print("--- wait 2 sec");
-            /*
-            Timer.scheduledTimer(
-                timeInterval: 0.9,
-                target: self,
-                selector: #selector(countdown),
-                userInfo: nil,
-                repeats: true);
-            */
-            
-            if (cardsSame) {
-                print("PAIR FOUND");
-                // stay opened, disable touch on them:
-                disableButton(on: cardIndex);
-                disableButton(on: currentCardFlippedIndex!);
-                
-                flippedPairs += 1;
-                isGameFinished();
-            } else {
-                print("pair wrong!");
-                closeCard(on: cardIndex);
-                closeCard(on: currentCardFlippedIndex!);
+            // TODO - remove to another method
+            let deadline = DispatchTime.now() + secondsToWait;
+            cardsDisabled = true;
+            DispatchQueue.main.asyncAfter(deadline: deadline) {
+                self.checkCards(same: cardsSame, first: cardIndex, second: currentIndex);
             }
+            // checkCards(same: cardsSame, first: cardIndex, second: currentIndex);
             
             numberOfFlips += 1;
             currentCardFlippedIndex = nil;
@@ -239,6 +227,23 @@ class GameController: UIViewController {
             print("first card opened");
             openCard(on: sender);
             currentCardFlippedIndex = cardIndex;
+        }
+    }
+    
+    func checkCards(same cardsSame: Bool, first index1: Int, second index2: Int) {
+        cardsDisabled = false;
+        if (cardsSame) {
+            print("PAIR FOUND");
+            // stay opened, disable touch on them:
+            disableButton(on: index1);
+            disableButton(on: index2);
+            
+            flippedPairs += 1;
+            isGameFinished();
+        } else {
+            print("pair wrong!");
+            closeCard(on: index1);
+            closeCard(on: index2);
         }
     }
     
