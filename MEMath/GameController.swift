@@ -11,6 +11,8 @@ import CoreData
 
 class GameController: UIViewController {
     
+    let basicColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1);
+    
     @IBOutlet weak var cardsView: UIView!
     
     // timer:
@@ -161,8 +163,9 @@ class GameController: UIViewController {
             for _ in 1...inRow {
                 let button = UIButton(type: .system);
                 button.frame = CGRect(x: x, y: y, width: cardSize, height: cardSize);
-                button.backgroundColor = #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1);
-                button.tintColor = #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1);
+                button.backgroundColor = basicColor;
+                button.tintColor = basicColor;
+                button.titleLabel?.font = UIFont(name: "Marker Felt", size: 22);
                 
                 // get value by the index in card array (question / answer):
                 let cardIndex = shuffledCardIndices[index];
@@ -320,7 +323,7 @@ class GameController: UIViewController {
     }
     
     func closeCard(on index: Int) {
-        cards[index].backgroundColor = #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1);
+        cards[index].backgroundColor = basicColor;
     }
     
     // disables touch on a button
