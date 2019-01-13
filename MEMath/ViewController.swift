@@ -91,6 +91,8 @@ class ViewController: UIViewController {
             
             view?.argDifficulty = getDifficulty();
             view?.argOperations = operations;
+            // max
+            view?.argMaxScores = 5;
         }
     }
     

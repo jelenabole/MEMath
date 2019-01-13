@@ -16,6 +16,7 @@
 		7781389E21DED96400EC9A2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7781389D21DED96400EC9A2E /* Assets.xcassets */; };
 		778138A121DED96400EC9A2E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7781389F21DED96400EC9A2E /* LaunchScreen.storyboard */; };
 		77C81B7C21E3997400E79A35 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C81B7B21E3997400E79A35 /* GameController.swift */; };
+		77E8E0A621EB886500B33A48 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E8E0A521EB886500B33A48 /* Utils.swift */; };
 		77EC317521E77F3C0065D45C /* Results.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EC317421E77F3C0065D45C /* Results.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		778138A021DED96400EC9A2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		778138A221DED96400EC9A2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		77C81B7B21E3997400E79A35 /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
+		77E8E0A521EB886500B33A48 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		77EC317421E77F3C0065D45C /* Results.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Results.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,6 +86,7 @@
 				7773285F21E55C49005EEB43 /* Deck.swift */,
 				774B610421E6B27600481264 /* Model.xcdatamodeld */,
 				77EC317421E77F3C0065D45C /* Results.swift */,
+				77E8E0A521EB886500B33A48 /* Utils.swift */,
 			);
 			path = MEMath;
 			sourceTree = "<group>";
@@ -162,6 +165,7 @@
 				77EC317521E77F3C0065D45C /* Results.swift in Sources */,
 				7773286021E55C49005EEB43 /* Deck.swift in Sources */,
 				7781389921DED96000EC9A2E /* ViewController.swift in Sources */,
+				77E8E0A621EB886500B33A48 /* Utils.swift in Sources */,
 				774B610621E6B27600481264 /* Model.xcdatamodeld in Sources */,
 				77C81B7C21E3997400E79A35 /* GameController.swift in Sources */,
 				7781389721DED96000EC9A2E /* AppDelegate.swift in Sources */,

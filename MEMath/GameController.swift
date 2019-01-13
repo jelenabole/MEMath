@@ -14,7 +14,8 @@ class GameController: UIViewController {
     // passed arguments:
     var argDifficulty: Deck.Difficulty = .hard;
     var argOperations: [Deck.Operation] = [];
-    var playerResults: [NSManagedObject] = [];
+    var argMaxScores: Int = 5;
+    var playerResults: [PlayerResult] = [];
     var database: DatabaseResults!;
     
     // constants and global variabled:
@@ -45,16 +46,7 @@ class GameController: UIViewController {
     var timer: Timer?;
     var secondsPassed: Int = 0 {
         didSet {
-            let min: Int = secondsPassed / 60;
-            let sec: Int = secondsPassed - (min * 60);
-            
-            var passed: String = "\(min):";
-            if (sec < 10) {
-                passed += "0";
-            }
-            passed += "\(sec)";
-            
-            timerLabel.text = String(passed);
+            timerLabel.text = String(convertToReadable(seconds: secondsPassed));
         }
     }
     
@@ -63,9 +55,7 @@ class GameController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad();
         
-        // get data from the previous screen:
-        // let ops: [Deck.Operation] = [.addition, .subtraction, .multiplication, .division];
-        print("sent args: \(argDifficulty) - \(argOperations)");
+        // argDifficulty = Deck.Difficulty.test;
         
         // global variable:
         myDeck = Deck(level: argDifficulty, operations: argOperations);
@@ -94,36 +84,9 @@ class GameController: UIViewController {
         // TODO - test the DB:
         let appDelegate = UIApplication.shared.delegate as! AppDelegate;
         let context = appDelegate.managedObjectContext;
-        database = DatabaseResults(from: context);
+        database = DatabaseResults(from: context, maxScores: argMaxScores);
         
         playerResults = database.getItems(for: argDifficulty);
-        
-        /*
-        // get all items (sorted from highest points):
-        var playerResults: [NSManagedObject] = database.getItems();
-        // get filtered items:
-        playerResults = database.getItems(for: .easy);
-        // create new user:
-        let result = PlayerResult(username: "user2", time: "0:30", points: 30, flips: 30, difficulty: 3);
-        database.save(item: result);
-        database.deleteAll();
-        */
-    }
-    
-    func calcNumberOfCards(from difficulty: Deck.Difficulty) -> (Int, Int) {
-        // TODO - create a better solution for this! (a real calculation by screen size)
-        
-        // 6, 12, 30 (pairs: 3, 6, 15)
-        switch difficulty {
-        case .easy:
-            // TODO - easy as TEST
-            return (1, 2);
-            // return (2, 3);
-        case .medium:
-            return (3, 4);
-        case .hard:
-            return (4, 6);
-        }
     }
     
     func startTimer() {
@@ -133,6 +96,7 @@ class GameController: UIViewController {
         }
         RunLoop.current.add(timer!, forMode: RunLoop.Mode.common);
     }
+    
     func stopTimer() {
         timer?.invalidate();
     }
@@ -272,23 +236,43 @@ class GameController: UIViewController {
     }
     
     func checkScores() {
+        // create current player:
+        let currentPlayer = PlayerResult(username: "***", time: convertToReadable(seconds: secondsPassed), points: secondsPassed, flips: numberOfFlips, difficulty: argDifficulty.rawValue);
+        
         //check with last player, if he is on the list - choose the message and shove him in the list
-        if (playerResults.count == 0 || secondsPassed > playerResults.last!.value(forKey: "points")! as! Int) {
-            // TODO - add current player to the list
-            // create new (current) player
-            // add player on a list of players (instead of a name ****)
-            // remove last player from the list if needed
+        if (playerResults.count == 0 || secondsPassed < playerResults.last!.points) {
             
-            showSuccess();
+            // create a list of player to show (max 5)
+            var list: [PlayerResult] = [];
+            var currentPlayerIndex : Int = 0;
+            argMaxScores = playerResults.count < argMaxScores ? playerResults.count : argMaxScores;
+            
+            var iresults = 0;
+            for ilist in 0 ..< argMaxScores {
+                if (iresults == ilist) {
+                    if (currentPlayer.points < playerResults[iresults].points) {
+                        list.append(currentPlayer);
+                        currentPlayerIndex = ilist;
+                    } else {
+                        list.append(playerResults[iresults]);
+                        iresults += 1;
+                    }
+                } else {
+                    list.append(playerResults[iresults]);
+                    iresults += 1;
+                }
+            }
+            
+            showSuccess(list: list, for: currentPlayerIndex);
         } else {
             showFailure();
         }
     }
     
-    func showSuccess() {
+    func showSuccess(list players: [PlayerResult], for playerIndex: Int) {
         var msg = "You finished the game in: \(timerLabel!.text!) \n";
-        for player in playerResults {
-            msg += "\n \(player.value(forKey: "username")!)  --  \(player.value(forKey: "time")!)";
+        for player in players {
+            msg += "\n \(player.username)  --  \(player.time)";
         }
         // DB data: username, time -- points, flips, difficulty
         
@@ -302,8 +286,7 @@ class GameController: UIViewController {
         
         alert.addAction(UIAlertAction(
             title: "Save", style: .default, handler: { [weak alert] (_) in
-                self.database.save(player: (alert?.textFields![0].text!)!, time: self.secondsPassed,
-                              flips: self.numberOfFlips, difficulty: self.argDifficulty.rawValue)
+                self.database.save(item: players[playerIndex], as: (alert?.textFields![0].text)!)
                 _ = self.navigationController?.popViewController(animated: true);
         }))
         
