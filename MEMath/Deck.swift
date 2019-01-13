@@ -135,7 +135,9 @@ class Deck {
     
     // number of pairs (cards: 6, 12, 30)
     enum Difficulty: Int {
-        case easy = 3;
+        // TODO - easy as TEST
+        case easy = 1;
+        // case easy = 3;
         case medium = 6;
         case hard = 12;
     }

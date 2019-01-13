@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var divisionButton: UIButton!
     
     @IBOutlet weak var allButton: UIButton!
-    var operations: [Deck.Operation] = [.addition];
+    var operations: [Deck.Operation] = [.addition, .subtraction, .multiplication, .division];
     
     override func viewDidLoad() {
         super.viewDidLoad()

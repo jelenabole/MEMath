@@ -12,8 +12,10 @@ import CoreData
 class GameController: UIViewController {
     
     // passed arguments:
-    var argDifficulty: Deck.Difficulty = .easy;
-    var argOperations: [Deck.Operation] = [.addition];
+    var argDifficulty: Deck.Difficulty = .hard;
+    var argOperations: [Deck.Operation] = [];
+    var playerResults: [NSManagedObject] = [];
+    var database: DatabaseResults!;
     
     // constants and global variabled:
     let basicColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1);
@@ -86,22 +88,26 @@ class GameController: UIViewController {
             self.startTimer();
         }
         
+        
+        
+        
         // TODO - test the DB:
         let appDelegate = UIApplication.shared.delegate as! AppDelegate;
         let context = appDelegate.managedObjectContext;
-        let database = DatabaseResults(from: context);
+        database = DatabaseResults(from: context);
         
+        playerResults = database.getItems(for: argDifficulty);
+        
+        /*
         // get all items (sorted from highest points):
         var playerResults: [NSManagedObject] = database.getItems();
-        
         // get filtered items:
         playerResults = database.getItems(for: .easy);
-        
         // create new user:
         let result = PlayerResult(username: "user2", time: "0:30", points: 30, flips: 30, difficulty: 3);
         database.save(item: result);
-        
         database.deleteAll();
+        */
     }
     
     func calcNumberOfCards(from difficulty: Deck.Difficulty) -> (Int, Int) {
@@ -110,7 +116,9 @@ class GameController: UIViewController {
         // 6, 12, 30 (pairs: 3, 6, 15)
         switch difficulty {
         case .easy:
-            return (2, 3);
+            // TODO - easy as TEST
+            return (1, 2);
+            // return (2, 3);
         case .medium:
             return (3, 4);
         case .hard:
@@ -128,11 +136,6 @@ class GameController: UIViewController {
     func stopTimer() {
         timer?.invalidate();
     }
-    func restartTimer() {
-        // TODO - check if the timer needs to be initialized
-        timer?.fire();
-    }
-    
     
     func createButtons(_ inRow: Int, _ inColumn: Int) {
         // get size of a parent:
@@ -190,6 +193,7 @@ class GameController: UIViewController {
         
     }
     
+    
     // GAME -- AFTER START
     
     @objc func cardClicked(sender: UIButton!) {
@@ -219,7 +223,6 @@ class GameController: UIViewController {
             DispatchQueue.main.asyncAfter(deadline: deadline) {
                 self.checkCards(same: cardsSame, first: cardIndex, second: currentIndex);
             }
-            // checkCards(same: cardsSame, first: cardIndex, second: currentIndex);
             
             numberOfFlips += 1;
             currentCardFlippedIndex = nil;
@@ -264,40 +267,58 @@ class GameController: UIViewController {
         if (flippedPairs == numberOfPairs) {
             print("GAME FINISHED");
             stopTimer();
-            showAlert();
+            checkScores();
         }
     }
     
-    func showAlert() {
-        // TODO - check results and decide which screen to show!
-        
-        // TODO - set the message and leader-board
-        // back button (!)
-        
-        // 2 messages:
-        // in top 10 = get usrname and save it
-        // not = sy "do better next time" - OK
+    func checkScores() {
+        //check with last player, if he is on the list - choose the message and shove him in the list
+        if (playerResults.count == 0 || secondsPassed > playerResults.last!.value(forKey: "points")! as! Int) {
+            // TODO - add current player to the list
+            // create new (current) player
+            // add player on a list of players (instead of a name ****)
+            // remove last player from the list if needed
+            
+            showSuccess();
+        } else {
+            showFailure();
+        }
+    }
+    
+    func showSuccess() {
+        var msg = "You finished the game in: \(timerLabel!.text!) \n";
+        for player in playerResults {
+            msg += "\n \(player.value(forKey: "username")!)  --  \(player.value(forKey: "time")!)";
+        }
+        // DB data: username, time -- points, flips, difficulty
         
         // show current time and add text field:
         let alert = UIAlertController(title: "CONGRATS!!",
-                                      message: "You finished the game in: \(timerLabel!.text!)",
+                                      message: msg,
             preferredStyle: .alert);
         alert.addTextField { (textField) in
-            textField.placeholder = "User"
+            textField.placeholder = "Username"
         }
+        
         alert.addAction(UIAlertAction(
             title: "Save", style: .default, handler: { [weak alert] (_) in
-                let textField = alert?.textFields![0];
-                print("username: \(textField!.text!)");
-                
-                // TODO - save the username with the time for the leaderboard
-                // TODO - open another alert for the leaderboard, and show that one
-                // .. go back on OK.
-                print("navigator : \(self.navigationController == nil)");
+                self.database.save(player: (alert?.textFields![0].text!)!, time: self.secondsPassed,
+                              flips: self.numberOfFlips, difficulty: self.argDifficulty.rawValue)
                 _ = self.navigationController?.popViewController(animated: true);
         }))
-        // TODO - get previous times
-        // set your name, or something -
+        
+        self.present(alert, animated: true, completion: nil);
+    }
+    
+    func showFailure() {
+        let alert = UIAlertController(title: "SORRY!!",
+                                      message: "Try better next time! Your time is: \(timerLabel!.text!)",
+            preferredStyle: .alert);
+        
+        alert.addAction(UIAlertAction(
+            title: "BACK", style: .default, handler: { [weak alert] (_) in
+                _ = self.navigationController?.popViewController(animated: true);
+        }))
         
         self.present(alert, animated: true, completion: nil);
     }

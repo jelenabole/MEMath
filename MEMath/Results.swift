@@ -76,6 +76,14 @@ class DatabaseResults {
         saveChanges();
     }
     
+    // TODO - used in game controller to save new entered user score
+    func save(player name: String, time seconds: Int, flips tries: Int, difficulty level: Int) {
+        // add player to the list
+        print("fix time in database.save");
+        let result = PlayerResult(username: name, time: "0:30", points: seconds, flips: tries, difficulty: level);
+        save(item: result);
+    }
+    
     // delete user
     func delete(user object: NSManagedObject) {
         context!.delete(object);
