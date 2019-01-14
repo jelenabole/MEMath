@@ -28,7 +28,7 @@ class PlayerResult {
 class DatabaseResults {
     
     let context: NSManagedObjectContext?;
-    let max: Int?;
+    let max: Int!;
     
     init(from context: NSManagedObjectContext, maxScores number: Int) {
         self.context = context;
@@ -87,10 +87,12 @@ class DatabaseResults {
     func deleteUnnecessary(for difficulty: Int) {
         let users = getDatabaseObjects(for: difficulty);
         
-        for index in max! ..< users.count {
-            context!.delete(users[index]);
+        if (max < users.count) {
+            for index in max ..< users.count {
+                context!.delete(users[index]);
+            }
+            saveChanges();
         }
-        saveChanges();
     }
     
     // save any changed (add, update, delete):

@@ -15,6 +15,7 @@ class GameController: UIViewController {
     var argDifficulty: Deck.Difficulty = .hard;
     var argOperations: [Deck.Operation] = [];
     var argMaxScores: Int = 5;
+    let defaultUsername = " ----- ";
     
     var playerResults: [PlayerResult] = [];
     var database: DatabaseResults!;
@@ -22,7 +23,7 @@ class GameController: UIViewController {
     
     let basicColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1);
     let secondsBetweenTurns = 2.0;
-    let secondsToStart = 5.0;
+    let secondsToStart = 3.0;
     
     @IBOutlet weak var readyLabel: UILabel!
     @IBOutlet weak var cardsView: UIView!
@@ -38,7 +39,7 @@ class GameController: UIViewController {
     var flippedPairs: Int = 0;
     var numberOfFlips: Int = 0 {
         didSet {
-            flipsLabel.text = "Tries: \(numberOfFlips)";
+            flipsLabel.text = "Flips: \(numberOfFlips)";
         }
     };
     
@@ -51,7 +52,7 @@ class GameController: UIViewController {
             // end long game:
             if (secondsPassed == (argDifficulty.rawValue * 30)) {
                 stopTimer();
-                openAllCards();
+                openandDisableAllCards();
                 showFailure();
             }
         }
@@ -71,21 +72,27 @@ class GameController: UIViewController {
         }
         shuffledCardIndices.shuffle();
         
-        // get number of cards by row and column:
-        let (inRow, inColumn) = getCardsByRowAndColumn(from: argDifficulty);
-        createButtons(inRow, inColumn);
-        
-        // start time with few seconds delay:
-        let deadline = DispatchTime.now() + secondsToStart;
-        DispatchQueue.main.asyncAfter(deadline: deadline) {
-            self.startTimer();
-        }
-        
         // DB repo:
         let appDelegate = UIApplication.shared.delegate as! AppDelegate;
         let context = appDelegate.managedObjectContext;
         database = DatabaseResults(from: context, maxScores: argMaxScores);
         playerResults = database.getItems(for: argDifficulty);
+    }
+    
+    var viewSet = false;
+    override func viewDidLayoutSubviews() {
+        if (!viewSet) {
+            viewSet = true;
+            // get number of cards by row and column:
+            let (inRow, inColumn) = getCardsByRowAndColumn(from: argDifficulty);
+            createButtons(inRow, inColumn);
+            
+            // start time with few seconds delay:
+            let deadline = DispatchTime.now() + secondsToStart;
+            DispatchQueue.main.asyncAfter(deadline: deadline) {
+                self.startTimer();
+            }
+        }
     }
     
     func startTimer() {
@@ -119,9 +126,12 @@ class GameController: UIViewController {
         
         // start values:
         var x, y: Int;
-        
         var index = 0;
-        y = padding / 2;
+        
+        // calculate start by height:
+        let heightOfCards = cardSize * inColumn + (padding * (inColumn - 1));
+        y = (parentHeight - heightOfCards) / 2;
+        
         for _ in 1...inColumn {
             x = padding / 2;
             
@@ -131,6 +141,7 @@ class GameController: UIViewController {
                 button.backgroundColor = basicColor;
                 button.tintColor = basicColor;
                 button.titleLabel?.font = UIFont(name: "Marker Felt", size: 22);
+                button.titleLabel?.adjustsFontSizeToFitWidth = true;
                 
                 // get value by the index in card array (question / answer):
                 let cardIndex = shuffledCardIndices[index];
@@ -162,55 +173,49 @@ class GameController: UIViewController {
         }
         let cardIndex = cards.firstIndex(of: sender)!;
         
-        // check if one card is already opened (or NIL):
+        // check if its the first or second card (or NIL):
         if let currentIndex = currentCardFlippedIndex {
             if (currentIndex == cardIndex) {
-                print("card already opened");
                 // clicked on the same card (already opened and active)
                 return;
             }
-            print("second card opened");
+            
+            // second card opened (one card already opened):
+            cardsDisabled = true;
             openCard(on: sender);
             numberOfFlips += 1;
             
             // check if those cards match (indexes from same card):
             let cardsSame: Bool = checkPair(first: shuffledCardIndices[cardIndex], second: shuffledCardIndices[currentIndex]);
-            cardsDisabled = true;
             
             if (cardsSame) {
+                // disable cards and check if game is finished
                 flippedPairs += 1;
-                isGameFinished();
-            }
-            
-            let deadline = DispatchTime.now() + secondsBetweenTurns;
-            DispatchQueue.main.asyncAfter(deadline: deadline) {
-                self.changeCardStatus(same: cardsSame, first: cardIndex, second: currentIndex);
+                disableButton(on: cardIndex);
+                disableButton(on: currentIndex);
+                
+                if (!isGameFinished()) {
+                    cardsDisabled = false;
+                }
+            } else {
+                // wait, then turn both cards back down
+                let deadline = DispatchTime.now() + secondsBetweenTurns;
+                DispatchQueue.main.asyncAfter(deadline: deadline) {
+                    self.closeCard(on: cardIndex);
+                    self.closeCard(on: currentIndex);
+                }
             }
             
             currentCardFlippedIndex = nil;
         } else {
-            print("first card opened");
+            // open first card (no other is opened):
             openCard(on: sender);
             currentCardFlippedIndex = cardIndex;
         }
     }
     
-    // either disable the cards or turn them back down
-    func changeCardStatus(same cardsSame: Bool, first index1: Int, second index2: Int) {
-        cardsDisabled = false;
-        if (cardsSame) {
-            disableButton(on: index1);
-            disableButton(on: index2);
-        } else {
-            closeCard(on: index1);
-            closeCard(on: index2);
-        }
-    }
-    
-    // checks if cards on given indexes are the same
+    // checks if cards on given indexes (truncated) are the same
     func checkPair(first x: Int, second y: Int) -> Bool {
-        // TODO - check if both are truncated:
-        print ("check pair: \(x / 2) - \(y / 2)");
         if ((x / 2) == (y / 2)) {
             return true;
         } else {
@@ -218,51 +223,36 @@ class GameController: UIViewController {
         }
     }
     
-    // checks if game is finished (all cards turned)
-    func isGameFinished() {
+    // checks if game is finished (all cards opened)
+    func isGameFinished() -> Bool {
         if (flippedPairs == myDeck.numberOfPairs) {
-            print("GAME FINISHED");
+            // print("GAME FINISHED");
             stopTimer();
             checkScores();
+            return true;
         }
+        return false;
     }
     
     func checkScores() {
         // create current player:
-        let currentPlayer = PlayerResult(username: " *** ", time: convertToReadable(seconds: secondsPassed), points: secondsPassed, flips: numberOfFlips, difficulty: argDifficulty.rawValue);
+        let currentPlayer = PlayerResult(username: defaultUsername, time: convertToReadable(seconds: secondsPassed), points: secondsPassed, flips: numberOfFlips, difficulty: argDifficulty.rawValue);
         
-        // depending on a last player, decide which message to show:
-        if (playerResults.count == 0 || secondsPassed < playerResults.last!.points) {
+        // depending on existing scores, decide which message to show:
+        if (playerResults.count == 0 || playerResults.count < argMaxScores || secondsPassed < playerResults.last!.points) {
             
-            // create a list of player to show (max 5)
-            var list: [PlayerResult] = [];
-            var currentPlayerIndex : Int = 0;
-            argMaxScores = playerResults.count < argMaxScores ? playerResults.count : argMaxScores;
+            // add a player, sort the array and get first few scores:
+            playerResults.append(currentPlayer);
+            playerResults.sort {$0.points < $1.points};
+            playerResults = Array(playerResults.prefix(argMaxScores));
             
-            // add current player to the list:
-            var iresults = 0;
-            for ilist in 0 ..< argMaxScores {
-                if (iresults == ilist) {
-                    if (currentPlayer.points < playerResults[iresults].points) {
-                        list.append(currentPlayer);
-                        currentPlayerIndex = ilist;
-                    } else {
-                        list.append(playerResults[iresults]);
-                        iresults += 1;
-                    }
-                } else {
-                    list.append(playerResults[iresults]);
-                    iresults += 1;
-                }
-            }
-            
-            showSuccess(list: list, for: currentPlayerIndex);
+            showSuccess(list: playerResults, for: currentPlayer);
         } else {
             showFailure();
         }
     }
     
-    func showSuccess(list players: [PlayerResult], for playerIndex: Int) {
+    func showSuccess(list players: [PlayerResult], for currentPlayer: PlayerResult) {
         var msg = "You finished the game in: \(timerLabel!.text!) \n";
         for player in players {
             msg += "\n \(player.username)  --  \(player.time) (\(player.flips))";
@@ -278,7 +268,7 @@ class GameController: UIViewController {
         
         alert.addAction(UIAlertAction(
             title: "Save", style: .default, handler: { [weak alert] (_) in
-                self.database.save(item: players[playerIndex], as: (alert?.textFields![0].text)!)
+                self.database.save(item: currentPlayer, as: (alert?.textFields![0].text)!)
                 _ = self.navigationController?.popViewController(animated: true);
         }))
         
@@ -305,9 +295,10 @@ class GameController: UIViewController {
         button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0);
     }
     
-    func openAllCards() {
+    func openandDisableAllCards() {
         for card in cards {
             card.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0);
+            card.isEnabled = false;
         }
     }
     
