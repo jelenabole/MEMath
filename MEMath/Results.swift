@@ -35,51 +35,22 @@ class DatabaseResults {
         self.max = number;
     }
     
-    
-    // get items
     func getItems(for difficulty: Deck.Difficulty? = nil) -> [PlayerResult] {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Results");
+        var playerResults: [PlayerResult] = [];
+        let results = getDatabaseObjects(for: difficulty?.rawValue);
         
-        if let diff = difficulty {
-            // fetchRequest.predicate = NSPredicate(format: "difficulty == %@", diff.rawValue);
-            fetchRequest.predicate = NSPredicate(format: "difficulty == \(diff.rawValue)");
+        for item in results {
+            playerResults.append(PlayerResult(from: item));
         }
-        let sortDescriptor = NSSortDescriptor(key: "points", ascending: true);
-        fetchRequest.sortDescriptors = [sortDescriptor];
-        
-        do {
-            let results = try context!.fetch(fetchRequest);
-            let obtainedResults = results as! [NSManagedObject];
-            
-            // TODO - print all users:
-            printAll(users: obtainedResults);
-            
-            // TODO - test:
-            if (obtainedResults.count == 0) {
-                print("** no results for this filter");
-            } else {
-                print ("** number of entries: \(obtainedResults.count)");
-            }
-            
-            // TODO - obtained results - return as a plain object
-            var playerResults: [PlayerResult] = [];
-            for item in obtainedResults {
-                playerResults.append(PlayerResult(from: item));
-            }
-            return playerResults;
-        } catch {
-            print("Error while getting value from DB");
-        }
-        
-        return [];
+        return playerResults
     }
     
-    
-    // DB method
+    // DB method (for get/delete)
     func getDatabaseObjects(for difficulty: Int? = nil) -> [NSManagedObject] {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Results");
         
         if let diff = difficulty {
+            // fetchRequest.predicate = NSPredicate(format: "difficulty == %@", diff.rawValue);
             fetchRequest.predicate = NSPredicate(format: "difficulty == \(diff)");
         }
         let sortDescriptor = NSSortDescriptor(key: "points", ascending: true);
@@ -99,7 +70,6 @@ class DatabaseResults {
     
     // save player result to context:
     func save(item: PlayerResult, as name: String) {
-        // create new results:
         let entity = NSEntityDescription.entity(forEntityName: "Results", in: context!);
         let myItem = NSManagedObject(entity: entity!, insertInto: context);
         
@@ -113,12 +83,10 @@ class DatabaseResults {
         deleteUnnecessary(for: item.difficulty);
     }
     
+    // if there are more than max number, delete the rest
     func deleteUnnecessary(for difficulty: Int) {
-        // get all of them, and delete last few:
         let users = getDatabaseObjects(for: difficulty);
-        print("delete unnecessary users from: \(users.count)");
         
-        // go through all users and delete them
         for index in max! ..< users.count {
             context!.delete(users[index]);
         }
@@ -136,19 +104,11 @@ class DatabaseResults {
     
     
     
+    // test functions
     
-    // delete user
-    func delete(user object: NSManagedObject) {
-        context!.delete(object);
-        saveChanges();
-    }
-    
-    // TODO - test = delete all users:
     func deleteAll() {
         let users = getDatabaseObjects();
-        print("delete \(users.count) users!");
         
-        // go through all users and delete them
         for index in 0 ..< users.count {
             context!.delete(users[index]);
         }

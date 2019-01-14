@@ -22,11 +22,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
+    // check all operations
     @IBAction func setAllOperations(_ sender: UIButton) {
-        // set all buttons to off:
         plusButton.isSelected = false;
         minusButton.isSelected = false;
         multiButton.isSelected = false;
@@ -36,13 +35,14 @@ class ViewController: UIViewController {
         operations = [.addition, .subtraction, .multiplication, .division];
     }
     
+    // change status of the operation
     @IBAction func changeOperation(_ sender: UIButton) {
         if (allButton.isSelected) {
             operations = [];
             allButton.isSelected = false;
         }
         
-        // get difficulty by the button pressed:
+        // get operation by the button:
         let op = getOperation(sender);
         if (sender.isSelected) {
             operations.remove(at: operations.index(of: op)!);
@@ -91,7 +91,6 @@ class ViewController: UIViewController {
             
             view?.argDifficulty = getDifficulty();
             view?.argOperations = operations;
-            // max
             view?.argMaxScores = 5;
         }
     }

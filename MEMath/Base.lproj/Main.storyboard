@@ -239,6 +239,14 @@
                             <view autoresizesSubviews="NO" clipsSubviews="YES" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="tIq-Cs-KEg">
                                 <rect key="frame" x="48" y="149.5" width="224" height="418.5"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="READY ..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0cZ-Mf-LlA">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="50"/>
+                                <color key="textColor" red="0.57874745130000005" green="0.32151988149999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <size key="shadowOffset" width="1" height="1"/>
+                            </label>
                         </subviews>
                         <constraints>
                             <constraint firstItem="1eJ-YM-lTi" firstAttribute="top" secondItem="l1K-iX-Zrq" secondAttribute="top" id="HCe-qg-irx"/>
@@ -246,16 +254,21 @@
                             <constraint firstItem="1eJ-YM-lTi" firstAttribute="leading" secondItem="l1K-iX-Zrq" secondAttribute="leading" id="N8S-d2-Qsj"/>
                             <constraint firstItem="l1K-iX-Zrq" firstAttribute="bottom" secondItem="1eJ-YM-lTi" secondAttribute="bottom" id="O4X-Wp-g5D"/>
                             <constraint firstItem="tIq-Cs-KEg" firstAttribute="bottom" secondItem="l1K-iX-Zrq" secondAttribute="bottom" id="Vtp-ta-45o"/>
+                            <constraint firstItem="0cZ-Mf-LlA" firstAttribute="leading" secondItem="l1K-iX-Zrq" secondAttribute="leading" id="YvN-Sz-JFf"/>
                             <constraint firstItem="UXr-qH-eWC" firstAttribute="leading" secondItem="l1K-iX-Zrq" secondAttribute="leading" id="cWM-uR-3MY"/>
                             <constraint firstItem="UXr-qH-eWC" firstAttribute="baseline" secondItem="tIq-Cs-KEg" secondAttribute="firstBaseline" constant="8" symbolType="layoutAnchor" id="dIz-ib-9Ab"/>
                             <constraint firstItem="tIq-Cs-KEg" firstAttribute="width" secondItem="d9r-Ba-hin" secondAttribute="width" multiplier="0.7" id="fcH-xZ-6T8"/>
                             <constraint firstItem="1eJ-YM-lTi" firstAttribute="trailing" secondItem="l1K-iX-Zrq" secondAttribute="trailing" id="h70-A0-Y4C"/>
                             <constraint firstItem="l1K-iX-Zrq" firstAttribute="trailing" secondItem="UXr-qH-eWC" secondAttribute="trailing" id="kQR-wS-AhW"/>
+                            <constraint firstItem="l1K-iX-Zrq" firstAttribute="trailing" secondItem="0cZ-Mf-LlA" secondAttribute="trailing" id="n9e-5y-vwc"/>
                             <constraint firstItem="tIq-Cs-KEg" firstAttribute="centerX" secondItem="l1K-iX-Zrq" secondAttribute="centerX" id="tn4-Cv-w5i"/>
+                            <constraint firstItem="0cZ-Mf-LlA" firstAttribute="top" secondItem="l1K-iX-Zrq" secondAttribute="top" id="vHQ-PE-dtF"/>
+                            <constraint firstItem="l1K-iX-Zrq" firstAttribute="bottom" secondItem="0cZ-Mf-LlA" secondAttribute="bottom" id="vuj-xH-yad"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="l1K-iX-Zrq"/>
                     </view>
                     <connections>
+                        <outlet property="ReadyLabel" destination="0cZ-Mf-LlA" id="eK3-Pu-XsK"/>
                         <outlet property="cardsView" destination="tIq-Cs-KEg" id="kYI-Z2-mQG"/>
                         <outlet property="flipsLabel" destination="6Hi-0s-STL" id="p26-46-Rom"/>
                         <outlet property="timerLabel" destination="bsW-eS-Qw7" id="ySU-0d-bE0"/>

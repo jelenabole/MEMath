@@ -10,14 +10,19 @@ import Foundation
 
 class Deck {
     
-    // number of combos:
     var difficulty: Difficulty;
     var operations: [Operation] = [];
     var cards: [Card] = [];
     
+    // additional info:
+    var numberOfPairs: Int;
+    var numberOfCards: Int;
+    
     init(level: Difficulty, operations: [Operation]) {
         self.difficulty = level;
         self.operations = operations;
+        self.numberOfPairs = level.rawValue;
+        self.numberOfCards = self.numberOfPairs * 2;
         createCombos();
     }
     
@@ -27,17 +32,10 @@ class Deck {
             let (que, ans) = getRandomNumbersAndResult();
             cards.append(Card(question: que, answer: ans));
         }
-        
-        // TODO - test:
-        print(" ** cards:");
-        for index in 0 ..< difficulty.rawValue {
-            print(cards[index].question + "  ==  " + cards[index].answer);
-        }
     }
     
-    
     func getRandomNumbersAndResult() -> (question: String, answer: String) {
-        // choose operation and range for numbers
+        // choose operation and range of numbers
         let (operation, max) = chooseOperation();
         
         var x: Int?;
@@ -55,9 +53,8 @@ class Deck {
         return (String(x!) + operation.rawValue + String(y!), String(result!));
     }
     
-    // randomly chooses the operation for 1 card:
+    // chose random operation:
     func chooseOperation() -> (operation: Operation, max: Int) {
-        // choose random operation:
         let random = Int.random(in: 0 ..< operations.count);
         let op = operations[random];
         
@@ -85,7 +82,6 @@ class Deck {
         case .division:
             changeToSmallerFirst(&x, &y);
             
-            // TODO - dividing by zero:
             if (y == 0) {
                 print ("dividing by zero!");
                 return nil;
@@ -96,10 +92,9 @@ class Deck {
             result = x / y;
         }
         
+        // check existing results (cant be equal):
         for index in 0 ..< cards.count {
-            // go through each one and check their results
             if (Int(cards[index].answer) == result) {
-                print("The result already exists: " + String(result!));
                 return nil;
             }
         }
@@ -114,6 +109,7 @@ class Deck {
             y = temp;
         }
     }
+    
     
     
     class Card {

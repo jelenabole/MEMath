@@ -21,8 +21,8 @@ func convertToReadable(seconds number: Int) -> String {
     return str;
 }
 
-func calcNumberOfCards(from difficulty: Deck.Difficulty) -> (Int, Int) {
-    // TODO - create a better solution for this! (a real calculation by screen size)
+// hardcoded values
+func getCardsByRowAndColumn(from difficulty: Deck.Difficulty) -> (Int, Int) {
     
     // 6, 12, 30 (pairs: 3, 6, 15)
     switch difficulty {
