@@ -62,9 +62,9 @@ class Deck {
         // *// = numbers up to 20
         switch op {
         case .addition, .subtraction:
-            return (op, 100);
+            return (op, 50);
         case .multiplication, .division:
-            return (op, 20);
+            return (op, 10);
         }
     }
     
@@ -83,7 +83,6 @@ class Deck {
             changeToSmallerFirst(&x, &y);
             
             if (y == 0) {
-                print ("dividing by zero!");
                 return nil;
             }
             if (x % y != 0) {

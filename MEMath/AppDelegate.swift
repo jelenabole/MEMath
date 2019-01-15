@@ -69,14 +69,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var persistentStoreCoordinator: NSPersistentStoreCoordinator {
         if (_persistentStoreCoordinator == nil) {
             let storeURL = self.applicationDocumentsDirectory.appendingPathComponent("Model.sqlite");
-            var error: NSError?;
             _persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel);
             
             do {
                 try _persistentStoreCoordinator!.addPersistentStore(
                     ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
-                print("store opened");
-                // TODO - add error handling when the persistent store is not accessible or schea is not compatible with the model
+                // TODO - add error handling when the persistent store is not accessible or schema is not compatible with the model
                 // - abort the app:
                 // abort();
             } catch {
@@ -96,13 +94,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // TODO - changed from != to ==
         if (_managedObjectContext == nil) {
             let coordinator = self.persistentStoreCoordinator;
-            _managedObjectContext = NSManagedObjectContext();
+            _managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType);
             _managedObjectContext!.persistentStoreCoordinator = coordinator
         }
         return _managedObjectContext!
     }
-    
-    
     
     
     
@@ -113,4 +109,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
-

@@ -203,6 +203,7 @@ class GameController: UIViewController {
                 DispatchQueue.main.asyncAfter(deadline: deadline) {
                     self.closeCard(on: cardIndex);
                     self.closeCard(on: currentIndex);
+                    self.cardsDisabled = false;
                 }
             }
             
@@ -281,7 +282,7 @@ class GameController: UIViewController {
             preferredStyle: .alert);
         
         alert.addAction(UIAlertAction(
-            title: "BACK", style: .default, handler: { [weak alert] (_) in
+            title: "BACK", style: .default, handler: {(_) in
                 _ = self.navigationController?.popViewController(animated: true);
         }))
         
