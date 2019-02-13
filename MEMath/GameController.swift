@@ -39,25 +39,32 @@ class GameController: UIViewController {
     var flippedPairs: Int = 0;
     var numberOfFlips: Int = 0 {
         didSet {
-            flipsLabel.text = "Flips: \(numberOfFlips)";
+            DispatchQueue.main.async() {
+                self.flipsLabel.text = "Flips: \(self.numberOfFlips)";
+            }
         }
     };
     
     // vars for time:
     var timer: Timer?;
+    // TODO - add minutes separately (?)
     var secondsPassed: Int = 0 {
         didSet {
-            timerLabel.text = String(convertToReadable(seconds: secondsPassed));
+            DispatchQueue.main.async() {
+                self.timerLabel.text = String(convertToReadable(seconds: self.secondsPassed));
+            }
             
             // end long game:
+            // * 30 = standard
             if (secondsPassed == (argDifficulty.rawValue * 30)) {
                 stopTimer();
-                openandDisableAllCards();
-                showFailure();
+                DispatchQueue.main.async() {
+                    self.openAndDisableAllCards();
+                }
+                showFailure(with: "Time is up!");
             }
         }
     }
-    
     
     
     override func viewDidLoad() {
@@ -95,18 +102,48 @@ class GameController: UIViewController {
         }
     }
     
+    // let timerSource : DispatchSourceTimer = DispatchSource.makeTimerSource();
     func startTimer() {
         cardsDisabled = false;
         readyLabel.removeFromSuperview();
-        timer = Timer(timeInterval: 1, repeats: true) {
+        
+        self.timer = Timer(timeInterval: 1, repeats: true) {
             [weak self] _ in self?.secondsPassed += 1;
         }
-        RunLoop.current.add(timer!, forMode: RunLoop.Mode.common);
+        RunLoop.current.add(self.timer!, forMode: RunLoop.Mode.common);
+        
+        /*
+        // regular timer in background:
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.timer = Timer(timeInterval: 1, repeats: true) {
+                [weak self] _ in self?.secondsPassed += 1;
+            }
+            RunLoop.current.add(self.timer!, forMode: RunLoop.Mode.common);
+        }
+        */
+        
+        // start DispatchTimer in background:
+        /*
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.timerSource.schedule(deadline: .now(), repeating: .seconds(1));
+            
+            self.timerSource.setEventHandler(handler: { [weak self] in
+                // this is called every 1 sec, as defined above:
+                print("smething happened");
+                self!.secondsPassed += 1;
+            })
+            self.timerSource.resume();
+        }
+        */
     }
     
     func stopTimer() {
         timer?.invalidate();
+        // timerSource.suspend();
     }
+    
+    
+    /* PREPARE SCREEN */
     
     func createButtons(_ inRow: Int, _ inColumn: Int) {
         let parentWidth = Int(cardsView.frame.width);
@@ -164,42 +201,59 @@ class GameController: UIViewController {
     }
     
     
-    // GAME -- AFTER START
+    /* GAME -- AFTER START */
     
     @objc func cardClicked(sender: UIButton!) {
-        // button (card) touched
+        // check if clicking is disabled:
         if (cardsDisabled) {
             return;
         }
-        let cardIndex = cards.firstIndex(of: sender)!;
+        
+        // start checking the card:
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.checkFlippedCard(sender);
+        }
+    }
+    
+    func checkFlippedCard(_ sender: UIButton!) {
+        let cardIndex = self.cards.firstIndex(of: sender)!;
         
         // check if its the first or second card (or NIL):
-        if let currentIndex = currentCardFlippedIndex {
+        if let currentIndex = self.currentCardFlippedIndex {
             if (currentIndex == cardIndex) {
-                // clicked on the same card (already opened and active)
+                // card already opened and active:
                 return;
             }
-            
             // second card opened (one card already opened):
-            cardsDisabled = true;
-            openCard(on: sender);
-            numberOfFlips += 1;
+            self.cardsDisabled = true;
+            // TODO - move (upper) disabling card to the main thred (?)
+            
+            
+            // open card in main thread:
+            DispatchQueue.main.async() {
+                self.openCard(on: sender);
+            }
+            self.numberOfFlips += 1;
             
             // check if those cards match (indexes from same card):
-            let cardsSame: Bool = checkPair(first: shuffledCardIndices[cardIndex], second: shuffledCardIndices[currentIndex]);
+            let cardsSame: Bool = self.checkPair(first: self.shuffledCardIndices[cardIndex], second: self.shuffledCardIndices[currentIndex]);
             
             if (cardsSame) {
                 // disable cards and check if game is finished
-                flippedPairs += 1;
-                disableButton(on: cardIndex);
-                disableButton(on: currentIndex);
+                self.flippedPairs += 1;
                 
-                if (!isGameFinished()) {
-                    cardsDisabled = false;
+                // disable buttons in main thread:
+                DispatchQueue.main.async() {
+                    self.disableButton(on: cardIndex);
+                    self.disableButton(on: currentIndex);
+                }
+                
+                if (!self.isGameFinished()) {
+                    self.cardsDisabled = false;
                 }
             } else {
-                // wait, then turn both cards back down
-                let deadline = DispatchTime.now() + secondsBetweenTurns;
+                // wait, then turn both cards back down (in main thread):
+                let deadline = DispatchTime.now() + self.secondsBetweenTurns;
                 DispatchQueue.main.asyncAfter(deadline: deadline) {
                     self.closeCard(on: cardIndex);
                     self.closeCard(on: currentIndex);
@@ -207,27 +261,27 @@ class GameController: UIViewController {
                 }
             }
             
-            currentCardFlippedIndex = nil;
+            self.currentCardFlippedIndex = nil;
         } else {
             // open first card (no other is opened):
-            openCard(on: sender);
-            currentCardFlippedIndex = cardIndex;
+            DispatchQueue.main.async() {
+                self.openCard(on: sender);
+            }
+            
+            self.currentCardFlippedIndex = cardIndex;
         }
     }
     
+    
     // checks if cards on given indexes (truncated) are the same
     func checkPair(first x: Int, second y: Int) -> Bool {
-        if ((x / 2) == (y / 2)) {
-            return true;
-        } else {
-            return false;
-        }
+        return ((x / 2) == (y / 2));
     }
     
     // checks if game is finished (all cards opened)
     func isGameFinished() -> Bool {
         if (flippedPairs == myDeck.numberOfPairs) {
-            // print("GAME FINISHED");
+            // if all pairs are found:
             stopTimer();
             checkScores();
             return true;
@@ -247,9 +301,13 @@ class GameController: UIViewController {
             playerResults.sort {$0.points < $1.points};
             playerResults = Array(playerResults.prefix(argMaxScores));
             
-            showSuccess(list: playerResults, for: currentPlayer);
+            DispatchQueue.main.async() {
+                self.showSuccess(list: self.playerResults, for: currentPlayer);
+            }
         } else {
-            showFailure();
+            DispatchQueue.main.async() {
+                self.showFailure(with: "Your time is \(convertToReadable(seconds: self.secondsPassed))! Try better next time!");
+            }
         }
     }
     
@@ -276,9 +334,9 @@ class GameController: UIViewController {
         self.present(alert, animated: true, completion: nil);
     }
     
-    func showFailure() {
+    func showFailure(with message: String) {
         let alert = UIAlertController(title: "SORRY!!",
-                                      message: "Try better next time! Your time is: \(timerLabel!.text!)",
+                                      message: message,
             preferredStyle: .alert);
         
         alert.addAction(UIAlertAction(
@@ -296,7 +354,7 @@ class GameController: UIViewController {
         button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0);
     }
     
-    func openandDisableAllCards() {
+    func openAndDisableAllCards() {
         for card in cards {
             card.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0);
             card.isEnabled = false;

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		774B610221E6B0DA00481264 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774B610121E6B0DA00481264 /* CoreData.framework */; };
 		774B610621E6B27600481264 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 774B610421E6B27600481264 /* Model.xcdatamodeld */; };
+		776A1CC022138F3600D558E0 /* DebugUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776A1CBF22138F3600D558E0 /* DebugUtils.swift */; };
 		7773286021E55C49005EEB43 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7773285F21E55C49005EEB43 /* Deck.swift */; };
 		7781389721DED96000EC9A2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7781389621DED96000EC9A2E /* AppDelegate.swift */; };
 		7781389921DED96000EC9A2E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7781389821DED96000EC9A2E /* ViewController.swift */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		774B610121E6B0DA00481264 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		774B610521E6B27600481264 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		776A1CBF22138F3600D558E0 /* DebugUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugUtils.swift; sourceTree = "<group>"; };
 		7773285F21E55C49005EEB43 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		7781389321DED96000EC9A2E /* MEMath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MEMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7781389621DED96000EC9A2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				774B610421E6B27600481264 /* Model.xcdatamodeld */,
 				77EC317421E77F3C0065D45C /* Results.swift */,
 				77E8E0A521EB886500B33A48 /* Utils.swift */,
+				776A1CBF22138F3600D558E0 /* DebugUtils.swift */,
 			);
 			path = MEMath;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 				77EC317521E77F3C0065D45C /* Results.swift in Sources */,
 				7773286021E55C49005EEB43 /* Deck.swift in Sources */,
 				7781389921DED96000EC9A2E /* ViewController.swift in Sources */,
+				776A1CC022138F3600D558E0 /* DebugUtils.swift in Sources */,
 				77E8E0A621EB886500B33A48 /* Utils.swift in Sources */,
 				774B610621E6B27600481264 /* Model.xcdatamodeld in Sources */,
 				77C81B7C21E3997400E79A35 /* GameController.swift in Sources */,
