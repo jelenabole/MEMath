@@ -10,7 +10,6 @@
 
 import Foundation
 
-
 func getStartTime() -> UInt64 {
     return DispatchTime.now().uptimeNanoseconds;
 }

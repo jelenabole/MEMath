@@ -12,7 +12,7 @@
 		776A1CC022138F3600D558E0 /* DebugUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776A1CBF22138F3600D558E0 /* DebugUtils.swift */; };
 		7773286021E55C49005EEB43 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7773285F21E55C49005EEB43 /* Deck.swift */; };
 		7781389721DED96000EC9A2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7781389621DED96000EC9A2E /* AppDelegate.swift */; };
-		7781389921DED96000EC9A2E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7781389821DED96000EC9A2E /* ViewController.swift */; };
+		7781389921DED96000EC9A2E /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7781389821DED96000EC9A2E /* MenuController.swift */; };
 		7781389C21DED96000EC9A2E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7781389A21DED96000EC9A2E /* Main.storyboard */; };
 		7781389E21DED96400EC9A2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7781389D21DED96400EC9A2E /* Assets.xcassets */; };
 		778138A121DED96400EC9A2E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7781389F21DED96400EC9A2E /* LaunchScreen.storyboard */; };
@@ -28,7 +28,7 @@
 		7773285F21E55C49005EEB43 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		7781389321DED96000EC9A2E /* MEMath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MEMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7781389621DED96000EC9A2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7781389821DED96000EC9A2E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7781389821DED96000EC9A2E /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		7781389B21DED96000EC9A2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7781389D21DED96400EC9A2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		778138A021DED96400EC9A2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -50,6 +50,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		77268B1F221467E200D71514 /* Additional */ = {
+			isa = PBXGroup;
+			children = (
+				7781389D21DED96400EC9A2E /* Assets.xcassets */,
+				77E8E0A521EB886500B33A48 /* Utils.swift */,
+				776A1CBF22138F3600D558E0 /* DebugUtils.swift */,
+				7781389621DED96000EC9A2E /* AppDelegate.swift */,
+			);
+			path = Additional;
+			sourceTree = "<group>";
+		};
+		77268B202214687900D71514 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				774B610421E6B27600481264 /* Model.xcdatamodeld */,
+				7773285F21E55C49005EEB43 /* Deck.swift */,
+				77EC317421E77F3C0065D45C /* Results.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		77268B212214895E00D71514 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7781389821DED96000EC9A2E /* MenuController.swift */,
+				77C81B7B21E3997400E79A35 /* GameController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		774B610021E6B0D900481264 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -78,18 +108,12 @@
 		7781389521DED96000EC9A2E /* MEMath */ = {
 			isa = PBXGroup;
 			children = (
-				7781389621DED96000EC9A2E /* AppDelegate.swift */,
-				7781389821DED96000EC9A2E /* ViewController.swift */,
+				77268B212214895E00D71514 /* Controllers */,
+				77268B202214687900D71514 /* Models */,
+				77268B1F221467E200D71514 /* Additional */,
 				7781389A21DED96000EC9A2E /* Main.storyboard */,
-				7781389D21DED96400EC9A2E /* Assets.xcassets */,
 				7781389F21DED96400EC9A2E /* LaunchScreen.storyboard */,
 				778138A221DED96400EC9A2E /* Info.plist */,
-				77C81B7B21E3997400E79A35 /* GameController.swift */,
-				7773285F21E55C49005EEB43 /* Deck.swift */,
-				774B610421E6B27600481264 /* Model.xcdatamodeld */,
-				77EC317421E77F3C0065D45C /* Results.swift */,
-				77E8E0A521EB886500B33A48 /* Utils.swift */,
-				776A1CBF22138F3600D558E0 /* DebugUtils.swift */,
 			);
 			path = MEMath;
 			sourceTree = "<group>";
@@ -167,7 +191,7 @@
 			files = (
 				77EC317521E77F3C0065D45C /* Results.swift in Sources */,
 				7773286021E55C49005EEB43 /* Deck.swift in Sources */,
-				7781389921DED96000EC9A2E /* ViewController.swift in Sources */,
+				7781389921DED96000EC9A2E /* MenuController.swift in Sources */,
 				776A1CC022138F3600D558E0 /* DebugUtils.swift in Sources */,
 				77E8E0A621EB886500B33A48 /* Utils.swift in Sources */,
 				774B610621E6B27600481264 /* Model.xcdatamodeld in Sources */,

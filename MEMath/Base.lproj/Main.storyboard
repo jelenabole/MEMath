@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Q5G-CI-cqA">
-    <device id="retina4_0" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Menu Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MEMath" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MenuController" customModule="MEMath" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post_bg" translatesAutoresizingMaskIntoConstraints="NO" id="hAQ-Ay-Dwm">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bdf-OR-v0v" userLabel="Config View">
-                                <rect key="frame" x="58.5" y="147.5" width="192" height="159"/>
+                                <rect key="frame" x="110" y="156" width="360" height="168"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="jY7-Eo-jQ3">
-                                        <rect key="frame" x="19.5" y="0.0" width="153.5" height="30"/>
+                                        <rect key="frame" x="36" y="0.0" width="288" height="31"/>
                                         <segments>
                                             <segment title="Easy"/>
                                             <segment title="Medium"/>
@@ -33,7 +30,7 @@
                                         <color key="tintColor" red="0.2498216248" green="0.6055877221" blue="0.35891379420000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SRa-oE-Pbe">
-                                        <rect key="frame" x="111" y="42.5" width="34.5" height="34.5"/>
+                                        <rect key="frame" x="207.5" y="30.5" width="65" height="65"/>
                                         <color key="backgroundColor" red="0.2498216248" green="0.6055877221" blue="0.35891379420000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="SRa-oE-Pbe" secondAttribute="height" multiplier="1:1" id="ePq-F2-0Ac"/>
@@ -48,7 +45,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jVG-fm-QbH">
-                                        <rect key="frame" x="47" y="82.5" width="34.5" height="34.5"/>
+                                        <rect key="frame" x="87.5" y="72.5" width="65" height="65"/>
                                         <color key="backgroundColor" red="0.2498216248" green="0.6055877221" blue="0.35891379420000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="jVG-fm-QbH" secondAttribute="height" multiplier="1:1" id="l5T-Ll-WYr"/>
@@ -63,7 +60,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kvr-3C-mvV">
-                                        <rect key="frame" x="111" y="82.5" width="34.5" height="34.5"/>
+                                        <rect key="frame" x="207.5" y="72.5" width="65" height="65"/>
                                         <color key="backgroundColor" red="0.2498216248" green="0.6055877221" blue="0.35891379420000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Kvr-3C-mvV" secondAttribute="height" multiplier="1:1" id="Led-Xa-C1k"/>
@@ -78,7 +75,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="center" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D9u-Y7-9gX">
-                                        <rect key="frame" x="62.5" y="124.5" width="67.5" height="34.5"/>
+                                        <rect key="frame" x="117" y="103" width="126" height="65"/>
                                         <color key="backgroundColor" red="0.2498216248" green="0.6055877221" blue="0.35891379420000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="18"/>
                                         <color key="tintColor" red="0.00010138400789999999" green="0.52734891230000003" blue="0.30274177130000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -91,7 +88,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSV-mJ-lxY">
-                                        <rect key="frame" x="47" y="42.5" width="34.5" height="34.5"/>
+                                        <rect key="frame" x="87.5" y="30.5" width="65" height="65"/>
                                         <color key="backgroundColor" red="0.2498216248" green="0.6055877221" blue="0.35891379420000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="bSV-mJ-lxY" secondAttribute="height" multiplier="1:1" id="46M-zE-acp"/>
@@ -130,13 +127,13 @@
                                 </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="start_bg" translatesAutoresizingMaskIntoConstraints="NO" id="ZdI-FP-UJs">
-                                <rect key="frame" x="48" y="369" width="224" height="199"/>
+                                <rect key="frame" x="90" y="226.5" width="420" height="373.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ZdI-FP-UJs" secondAttribute="height" multiplier="742:660" id="qKW-Db-9J9"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xpB-e5-RPL">
-                                <rect key="frame" x="65.5" y="369" width="157" height="111.5"/>
+                                <rect key="frame" x="123" y="226.5" width="294" height="209"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="23"/>
                                 <size key="titleShadowOffset" width="2" height="2"/>
                                 <state key="normal" title="START">
@@ -187,23 +184,23 @@
             <objects>
                 <viewController id="Nz3-Uh-DrK" customClass="GameController" customModule="MEMath" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="d9r-Ba-hin">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="game_bg" translatesAutoresizingMaskIntoConstraints="NO" id="1eJ-YM-lTi">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UXr-qH-eWC" userLabel="Upper View">
-                                <rect key="frame" x="0.0" y="64" width="320" height="93.5"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="175.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="time_bg" translatesAutoresizingMaskIntoConstraints="NO" id="5cw-mS-ref">
-                                        <rect key="frame" x="80" y="0.0" width="160" height="93.5"/>
+                                        <rect key="frame" x="150" y="0.0" width="300" height="175.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="5cw-mS-ref" secondAttribute="height" multiplier="94:55" id="Tgw-SD-bvw"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="1" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="bsW-eS-Qw7">
-                                        <rect key="frame" x="80" y="37.5" width="160" height="56"/>
+                                        <rect key="frame" x="150" y="70" width="300" height="105.5"/>
                                         <attributedString key="attributedText">
                                             <fragment content="0:00">
                                                 <attributes>
@@ -218,7 +215,7 @@
                                         <size key="shadowOffset" width="2" height="2"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flips: 0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="6Hi-0s-STL">
-                                        <rect key="frame" x="0.0" y="8" width="310" height="24"/>
+                                        <rect key="frame" x="0.0" y="8" width="590" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -239,10 +236,10 @@
                                 </constraints>
                             </view>
                             <view autoresizesSubviews="NO" clipsSubviews="YES" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="tIq-Cs-KEg">
-                                <rect key="frame" x="48" y="149.5" width="224" height="418.5"/>
+                                <rect key="frame" x="90" y="231.5" width="420" height="368.5"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0cZ-Mf-LlA">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <string key="text">GET
 READY!</string>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="50"/>

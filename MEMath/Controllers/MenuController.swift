@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MenuController: UIViewController {
     
     @IBOutlet weak var difficultySegment: UISegmentedControl!
     
@@ -78,8 +78,6 @@ class ViewController: UIViewController {
             return .medium;
         case 2:
             return .hard;
-            
-        // TODO - error ??
         default:
             return .easy;
         }
@@ -94,5 +92,4 @@ class ViewController: UIViewController {
             view?.argMaxScores = 5;
         }
     }
-    
 }

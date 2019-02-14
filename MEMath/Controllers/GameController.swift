@@ -11,26 +11,30 @@ import CoreData
 
 class GameController: UIViewController {
     
-    // passed arguments:
+    // passed and database arguments:
     var argDifficulty: Deck.Difficulty = .hard;
     var argOperations: [Deck.Operation] = [];
     var argMaxScores: Int = 5;
-    let defaultUsername = " ----- ";
     
-    var playerResults: [PlayerResult] = [];
-    var database: DatabaseResults!;
-    var cardsDisabled = true;
+    private var playerResults: [PlayerResult] = [];
+    private var database: DatabaseResults!;
+    private var cardsDisabled = true;
     
-    let basicColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1);
-    let secondsBetweenTurns = 2.0;
-    let secondsToStart = 3.0;
+    // default values:
+    private let defaultUsername = " ----- ";
+    private let basicColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1);
+    private let secondsBetweenTurns = 2.0;
+    private let secondsToStart = 3.0;
+    private let timeUpMessage = "Time is up!";
+    private let successMessage = "You finished the game in:";
+    private let failMessage = "Try better next time!";
     
     @IBOutlet weak var readyLabel: UILabel!
     @IBOutlet weak var cardsView: UIView!
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var flipsLabel: UILabel!
     
-    var cards = [UIButton]();
+    private var cards = [UIButton]();
     var myDeck: Deck!;
     var shuffledCardIndices: [Int] = [];
     
@@ -47,21 +51,25 @@ class GameController: UIViewController {
     
     // vars for time:
     var timer: Timer?;
-    // TODO - add minutes separately (?)
+    var minutesPassed: Int = 0;
     var secondsPassed: Int = 0 {
         didSet {
+            if (secondsPassed == 60) {
+                secondsPassed = 0;
+                minutesPassed += 1;
+            }
+            
             DispatchQueue.main.async() {
-                self.timerLabel.text = String(convertToReadable(seconds: self.secondsPassed));
+                self.timerLabel.text = "\(self.minutesPassed):" + convertToString(time: self.secondsPassed);
             }
             
             // end long game:
-            // * 30 = standard
-            if (secondsPassed == (argDifficulty.rawValue * 30)) {
+            if ((minutesPassed * 60 + secondsPassed) == (argDifficulty.rawValue * 30)) {
                 stopTimer();
                 DispatchQueue.main.async() {
                     self.openAndDisableAllCards();
                 }
-                showFailure(with: "Time is up!");
+                showFailure(with: timeUpMessage);
             }
         }
     }
@@ -102,7 +110,6 @@ class GameController: UIViewController {
         }
     }
     
-    // let timerSource : DispatchSourceTimer = DispatchSource.makeTimerSource();
     func startTimer() {
         cardsDisabled = false;
         readyLabel.removeFromSuperview();
@@ -111,35 +118,10 @@ class GameController: UIViewController {
             [weak self] _ in self?.secondsPassed += 1;
         }
         RunLoop.current.add(self.timer!, forMode: RunLoop.Mode.common);
-        
-        /*
-        // regular timer in background:
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.timer = Timer(timeInterval: 1, repeats: true) {
-                [weak self] _ in self?.secondsPassed += 1;
-            }
-            RunLoop.current.add(self.timer!, forMode: RunLoop.Mode.common);
-        }
-        */
-        
-        // start DispatchTimer in background:
-        /*
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.timerSource.schedule(deadline: .now(), repeating: .seconds(1));
-            
-            self.timerSource.setEventHandler(handler: { [weak self] in
-                // this is called every 1 sec, as defined above:
-                print("smething happened");
-                self!.secondsPassed += 1;
-            })
-            self.timerSource.resume();
-        }
-        */
     }
     
     func stopTimer() {
         timer?.invalidate();
-        // timerSource.suspend();
     }
     
     
@@ -228,7 +210,6 @@ class GameController: UIViewController {
             self.cardsDisabled = true;
             // TODO - move (upper) disabling card to the main thred (?)
             
-            
             // open card in main thread:
             DispatchQueue.main.async() {
                 self.openCard(on: sender);
@@ -272,7 +253,6 @@ class GameController: UIViewController {
         }
     }
     
-    
     // checks if cards on given indexes (truncated) are the same
     func checkPair(first x: Int, second y: Int) -> Bool {
         return ((x / 2) == (y / 2));
@@ -306,13 +286,13 @@ class GameController: UIViewController {
             }
         } else {
             DispatchQueue.main.async() {
-                self.showFailure(with: "Your time is \(convertToReadable(seconds: self.secondsPassed))! Try better next time!");
+                self.showFailure(with: "Your time is \(convertToReadable(seconds: self.secondsPassed))! " + self.failMessage);
             }
         }
     }
     
     func showSuccess(list players: [PlayerResult], for currentPlayer: PlayerResult) {
-        var msg = "You finished the game in: \(timerLabel!.text!) \n";
+        var msg = successMessage + " \(timerLabel!.text!) \n";
         for player in players {
             msg += "\n \(player.username)  --  \(player.time) (\(player.flips))";
         }
@@ -347,8 +327,6 @@ class GameController: UIViewController {
         self.present(alert, animated: true, completion: nil);
     }
     
-    
-    
     func openCard(on button: UIButton) {
         // button.setTitleColor(.black, for: .normal);
         button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0);
@@ -365,8 +343,7 @@ class GameController: UIViewController {
         cards[index].backgroundColor = basicColor;
     }
     
-    func  disableButton(on index: Int) {
+    func disableButton(on index: Int) {
         cards[index].isEnabled = false;
     }
-    
 }

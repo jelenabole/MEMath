@@ -21,6 +21,15 @@ func convertToReadable(seconds number: Int) -> String {
     return str;
 }
 
+// adds padding "0x" if needed:
+func convertToString(time number: Int) -> String {
+    if (number < 10) {
+        return "0" + "\(number)";
+    } else {
+        return "\(number)";
+    }
+}
+
 // hardcoded values
 func getCardsByRowAndColumn(from difficulty: Deck.Difficulty) -> (Int, Int) {
     
